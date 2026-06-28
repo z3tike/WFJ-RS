@@ -1,14 +1,11 @@
-topics = [
-    'football',
-    'gaming',
-    'ai'
-]
+TOPICS = {
+    "football": 0,
+    "gaming": 1,
+    "ai": 2
+}
 
-def one_hot(topic):
-    vector = []
-    for t in topics:
-        if t == topic:
-            vector.append(1)
-        else:
-            vector.append(0)
-    return vector
+def topic_to_id(topic):
+    return TOPICS[topic]
+
+def topic_count():
+    return len(TOPICS)
