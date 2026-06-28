@@ -1,101 +1,92 @@
-# 🎯 Simple Neural Recommendation System
+# Neural Recommendation System (PyTorch)
 
-This project is a beginner-friendly machine learning recommendation system built with PyTorch.  
-It demonstrates how a neural network can learn to recommend videos based on user preferences and video statistics.
-
----
-
-## 👤 Author
-
-Developed by: **Zeteny Sovago**
+This project is a machine learning-based recommendation system built with PyTorch.  
+It demonstrates how a neural network can learn to rank and recommend videos based on user preferences and video statistics.
 
 ---
 
-## 🚀 Project Goal
+## Author
 
-The goal of this project is to build a simple video recommendation system that learns:
-
-- User preferences (topics)
-- Video metadata (views, likes, shares)
-- Relevance between users and videos
-
-The model predicts how relevant a video is for a specific user.
+Developed by: **[Your Name]**
 
 ---
 
-## 🧠 How it works
+## Project Goal
 
-The system learns from a dataset of:
+The goal of this project is to build a simple recommendation system that learns relationships between:
 
-- Users (favorite topic)
-- Videos (topic + statistics)
-- Labels (how relevant a video is for a user)
+- User preferences (favorite topic)
+- Video attributes (topic, views, likes, shares)
+- Relevance score between a user and a video
 
-The neural network outputs a relevance score.
+The model outputs a score that can be used to rank videos for recommendation.
 
 ---
 
-## 🔄 Pipeline Overview
+## System Overview
+
+The system is trained on a dataset of user–video pairs.
+
+Each training sample contains:
+
+- User topic (encoded)
+- Video topic (encoded)
+- Video statistics (normalized features)
+- Label (relevance score)
+
+The neural network learns to predict how relevant a video is for a given user.
+
+---
+
+## Pipeline
 
 Users + Videos
-      │
-      ▼
-Dataset Builder
-(create user-video pairs)
-      │
-      ▼
+      |
+      v
+Dataset Construction
+(user-video pairs)
+      |
+      v
 Feature Encoding
-(topic → embedding / id)
-(stats → normalized values)
-      │
-      ▼
-Neural Network (PyTorch)
-      │
-      ▼
-Prediction Score
-      │
-      ▼
+- Topic encoding (ID / embedding)
+- Normalized statistics (views, likes, shares)
+      |
+      v
+Neural Network (PyTorch MLP)
+      |
+      v
+Relevance Score Prediction
+      |
+      v
 Loss Function (MSE / BCEWithLogits)
-      │
-      ▼
-Backpropagation (training)
-      │
-      ▼
-Trained Recommendation Model
-      │
-      ▼
+      |
+      v
+Backpropagation + Optimization
+      |
+      v
+Trained Model
+      |
+      v
 Recommendation Engine
-(sort videos by score)
+(sort videos by predicted score)
 
 ---
 
-## 📦 Features
+## Model Input
 
-- Neural network-based recommendation model
-- Topic encoding (embedding / ID mapping)
-- Normalized video statistics (views, likes, shares)
-- Custom dataset generator
-- Ranking-based recommendation output
-
----
-
-## 🏗️ Model Architecture
-
-The model takes three inputs:
+The model receives three inputs:
 
 - User topic
 - Video topic
-- Video statistics
+- Video statistics (views, likes, shares)
 
-And outputs:
-
-- A relevance score
+These inputs are combined and processed by a neural network to produce a single relevance score.
 
 ---
 
-## 📊 Example Output
+## Example Output
 
-===== RECOMMENDATIONS =====
+RECOMMENDATIONS
 
 Video 2 - gaming
 Score: 0.77
@@ -108,45 +99,34 @@ Score: 0.08
 
 ---
 
-## 🧪 Technologies Used
+## Technologies Used
 
 - Python
 - PyTorch
 - NumPy (optional)
-- Basic feature engineering
 
 ---
 
-## 📚 What I learned
+## Key Concepts Learned
 
-- How embedding-based models work
-- How recommendation systems are trained
-- Difference between classification and ranking
-- Importance of dataset design in ML
-
----
-
-## 🚀 Future improvements
-
-- Replace label-based training with pairwise ranking (A vs B)
-- Add user history / watch time
-- Improve embedding space for topics
-- Add deeper neural architectures
-- Build real-time recommendation API
+- Neural network-based recommendation systems
+- Embedding vs one-hot encoding
+- Feature normalization
+- Ranking vs classification
+- Dataset design for machine learning
 
 ---
 
-## 🧠 Real-world analogy
+## Future Improvements
 
-This project is a simplified version of systems used in:
-
-- YouTube recommendations
-- TikTok feed ranking
-- Instagram explore feed
+- Replace pointwise training with pairwise ranking (A vs B)
+- Add user history and sequential behavior
+- Improve embedding representation of topics
+- Introduce deeper architectures (MLP, attention-based models)
+- Build a real-time recommendation API
 
 ---
 
-## ⚠️ Note
+## Notes
 
-This is an educational project and not a production system.  
-It is designed to understand the fundamentals of recommendation systems.
+This is an educational project focused on understanding the fundamentals of recommendation systems. It is not intended for production use.
