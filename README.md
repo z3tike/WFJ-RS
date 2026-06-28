@@ -44,7 +44,7 @@ The output is a continuous score used for recommendation ranking.
     |  - Topic encoding (ID / embedding)       |
     |  - Normalize views                       |
     |  - Normalize likes                       |
-    |  - Normalize shares                     |
+    |  - Normalize shares                      |
     +------------------+-----------------------+
                          |
                          v
@@ -55,20 +55,20 @@ The output is a continuous score used for recommendation ranking.
                          |
                          v
                 +------------------+
-                |  SCORE PREDICTION|
-                |  relevance score |
+                | SCORE PREDICTION |
+                | relevance score  |
                 +--------+---------+
                          |
                          v
                 +------------------+
-                |      LOSS        |
-                | MSE / BCEWithLogits |
+              |        LOSS          |
+              |  MSE / BCEWithLogits |
                 +--------+---------+
                          |
                          v
                 +------------------+
-                | BACKPROPAGATION  |
-                | optimizer step   |
+                |  BACKPROPAGATION |
+                |  optimizer step  |
                 +--------+---------+
                          |
                          v
@@ -78,8 +78,8 @@ The output is a continuous score used for recommendation ranking.
                          |
                          v
                 +------------------+
-                | RECOMMENDATIONS  |
-                | sort by score    |
+                |  RECOMMENDATIONS |
+                |  sort by score   |
                 +------------------+
 
 ---
