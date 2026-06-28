@@ -1,36 +1,29 @@
 import torch
 import torch.nn as nn
 from encoder import topic_count
-class RecommendationModel(nn.Module):
 
-    def __init__(self):
+class WatchTimeModel(nn.Module):
+
+    def __init__(self, num_users, num_videos, num_topics, embedding_dim=8):
         super().__init__()
 
-        self.topic_embedding = nn.Embedding(
-            num_embeddings=topic_count(),
-            embedding_dim=8    
-        )
+        self.user_embedding  = nn.Embedding(num_users,  embedding_dim)
+        self.video_embedding = nn.Embedding(num_videos, embedding_dim)
+        self.topic_embedding = nn.Embedding(num_topics, embedding_dim)
 
         self.network = nn.Sequential(
-            nn.Linear(19, 32),
+            nn.Linear(embedding_dim * 3, 32),
             nn.ReLU(),
-
             nn.Linear(32, 16),
             nn.ReLU(),
-
             nn.Linear(16, 1),
+            nn.Sigmoid()
         )
 
-    def forward(self, user_topic, stats, video_topic):
+    def forward(self, user_id, video_id, topic_id):
+        u = self.user_embedding(user_id)
+        v = self.video_embedding(video_id)
+        t = self.topic_embedding(topic_id)
 
-        user_embedding = self.topic_embedding(user_topic)
-
-        video_embedding = self.topic_embedding(video_topic)
-
-        x = torch.cat([
-            user_embedding,
-            stats,
-            video_embedding
-        ])
-
-        return self.network(x)
+        x = torch.cat([u, v, t])
+        return self.network(x).squeeze()

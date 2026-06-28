@@ -1,31 +1,40 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from dataset import create_dataset
-from model import RecommendationModel
-from recommend import recommend
-from data import users
+from data import watch_interactions, videos
+from model import WatchTimeModel
+from encoder import topic_to_id, topic_count
 
-dataset = create_dataset()
+MAX_WATCH_TIME = 200
 
-model = RecommendationModel()
+video_topic_map = {v["id"]: v["topic"] for v in videos}
 
-loss_fn = nn.MSELoss()
+model = WatchTimeModel(
+    num_users=3,
+    num_videos=10,
+    num_topics=topic_count(),
+    embedding_dim=8
+)
 
-optimizer = optim.Adam( model.parameters(), lr=0.001 )
+loss_fn  = nn.MSELoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
-for epoch in range(500):
-
+for epoch in range(1000):
     total_loss = 0
 
-    for user_topic, stats, video_topic, label in dataset:
+    for interaction in watch_interactions:
+        user_id  = torch.tensor(interaction["user_id"] - 1)
+        video_id = torch.tensor(interaction["video_id"] - 1)
 
-        prediction = model(
-            user_topic,
-            stats,
-            video_topic
+        topic    = video_topic_map[interaction["video_id"]]
+        topic_id = torch.tensor(topic_to_id(topic))
+
+        label = torch.tensor(
+            interaction["watch_time"] / MAX_WATCH_TIME,
+            dtype=torch.float32
         )
 
+        prediction = model(user_id, video_id, topic_id)
         loss = loss_fn(prediction, label)
 
         optimizer.zero_grad()
@@ -34,20 +43,5 @@ for epoch in range(500):
 
         total_loss += loss.item()
 
-    if epoch % 50 == 0:
-        print(f"Epoch {epoch:3} | Loss = {total_loss:.4f}")
-
-print("\n===== AJÁNLÁS =====\n")
-
-recommendations = recommend(users[0], model)
-
-for video, score in recommendations:
-
-    print(
-        f"Video {video['id']}\n"
-        f"Topic : {video['topic']}\n"
-        f"Views : {video['views']}\n"
-        f"Likes : {video['likes']}\n"
-        f"Shares: {video['shares']}\n"
-        f"Score : {score}\n"
-    )
+    if epoch % 100 == 0:
+        print(f"Epoch {epoch:4} | Loss = {total_loss:.4f}")
