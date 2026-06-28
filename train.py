@@ -6,6 +6,7 @@ from model import RecommendationModel
 from recommend import recommend
 from data import users
 
+
 dataset = create_dataset()
 model = RecommendationModel()
 loss_fn = nn.BCELoss()
@@ -31,11 +32,13 @@ for epoch in range(500):
 
     if epoch % 50 == 0:
         print(f"Epoch {epoch} | Loss = {total_loss:.4f}")
-
-print("\n===== AJÁNLÁS =====")
+print()
+print("-" * 5 + "Anticipating user needs" + "-" * 5)
+print()
 
 recommendations = recommend(users[0], model)
 
 for video, score in recommendations:
 
-    print(f"Video (id: {video["id"]}) - Topic: {video["topic"]} - Likes: {video["likes"]}.\nScore: {score}" )
+    print(f"Video (id: {video["id"]}) - Topic: {video["topic"]} - Views: {video["views"]} - Likes: {video["likes"]} - Shares: {video["shares"]}.\nScore: {score}" )
+    print()

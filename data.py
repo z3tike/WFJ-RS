@@ -6,6 +6,7 @@ videos = [
         "shares": 60,
         "topic": "football"
     },
+    
     {
         "id": 2,
         "views": 5000,
@@ -19,13 +20,34 @@ videos = [
         "likes": 6000,
         "shares": 300,
         "topic": "ai"
-    }
+    },
+    {
+        "id": 4,
+        "views": 20000,
+        "likes": 2000,
+        "shares": 100,
+        "topic": "football"
+    },
+    {
+        "id": 5,
+        "views": 5000,
+        "likes": 100,
+        "shares": 15,
+        "topic": "gaming"
+    },
+    {
+        "id": 6,
+        "views": 100000,
+        "likes": 5000,
+        "shares": 150,
+        "topic": "ai"
+    },
 ]
 
 users = [
     {
         "id": 1,
-        "favorite_topic": "football"
+        "favorite_topic": "gaming"
     },
     {
         "id": 2,
