@@ -1,7 +1,7 @@
 # Neural Recommendation System (PyTorch)
 
-This project is a machine learning-based recommendation system built with PyTorch.  
-It demonstrates how a neural network can learn to rank and recommend videos based on user preferences and video statistics.
+This project implements a simple neural network–based recommendation system using PyTorch.  
+The model learns to predict how relevant a video is for a specific user based on topic matching and video engagement statistics.
 
 ---
 
@@ -11,76 +11,111 @@ Developed by: **z3tike**
 
 ---
 
-## Project Goal
+## Project Overview
 
-The goal of this project is to build a simple recommendation system that learns relationships between:
+The system learns from user–video interaction pairs and predicts a relevance score for ranking videos.
+
+It combines:
 
 - User preferences (favorite topic)
-- Video attributes (topic, views, likes, shares)
-- Relevance score between a user and a video
+- Video metadata (topic, views, likes, shares)
+- Engineered features (normalized statistics)
 
-The model outputs a score that can be used to rank videos for recommendation.
+The output is a continuous score used for recommendation ranking.
 
 ---
 
-## System Overview
+## System Architecture
+                +------------------+
+                |     USERS        |
+                | favorite_topic   |
+                +--------+---------+
+                         |
+                         v
+                +------------------+
+                |  DATASET BUILDER |
+                | user-video pairs |
+                +--------+---------+
+                         |
+                         v
+    +------------------------------------------+
+    |            FEATURE ENGINEERING           |
+    |                                          |
+    |  - Topic encoding (ID / embedding)       |
+    |  - Normalize views                       |
+    |  - Normalize likes                       |
+    |  - Normalize shares                     |
+    +------------------+-----------------------+
+                         |
+                         v
+                +------------------+
+                |  NEURAL NETWORK  |
+                |   (PyTorch MLP)  |
+                +--------+---------+
+                         |
+                         v
+                +------------------+
+                |  SCORE PREDICTION|
+                |  relevance score |
+                +--------+---------+
+                         |
+                         v
+                +------------------+
+                |      LOSS        |
+                | MSE / BCEWithLogits |
+                +--------+---------+
+                         |
+                         v
+                +------------------+
+                | BACKPROPAGATION  |
+                | optimizer step   |
+                +--------+---------+
+                         |
+                         v
+                +------------------+
+                |  TRAINED MODEL   |
+                +--------+---------+
+                         |
+                         v
+                +------------------+
+                | RECOMMENDATIONS  |
+                | sort by score    |
+                +------------------+
 
-The system is trained on a dataset of user–video pairs.
+---
+
+## Input Representation
 
 Each training sample contains:
 
-- User topic (encoded)
-- Video topic (encoded)
-- Video statistics (normalized features)
-- Label (relevance score)
+- Encoded user topic
+- Encoded video topic
+- Normalized statistics:
+  - views
+  - likes
+  - shares
 
-The neural network learns to predict how relevant a video is for a given user.
-
----
-
-## Pipeline
-
-Users + Videos
-      |
-      v
-Dataset Construction
-(user-video pairs)
-      |
-      v
-Feature Encoding
-- Topic encoding (ID / embedding)
-- Normalized statistics (views, likes, shares)
-      |
-      v
-Neural Network (PyTorch MLP)
-      |
-      v
-Relevance Score Prediction
-      |
-      v
-Loss Function (MSE / BCEWithLogits)
-      |
-      v
-Backpropagation + Optimization
-      |
-      v
-Trained Model
-      |
-      v
-Recommendation Engine
-(sort videos by predicted score)
+These are concatenated into a single feature vector.
 
 ---
 
-## Model Input
+## Model Output
 
-The model receives three inputs:
+The model outputs a single scalar:
 
-- User topic
-- Video topic
-- Video statistics (views, likes, shares)
+This score is used to rank videos for each user.
 
-These inputs are combined and processed by a neural network to produce a single relevance score.
+---
+
+## Training Process
+
+1. Create user–video pairs
+2. Compute features
+3. Compute label (relevance signal)
+4. Forward pass through neural network
+5. Compute loss
+6. Backpropagation
+7. Update weights using optimizer
 
 ---
 
@@ -103,30 +138,32 @@ Score: 0.08
 
 - Python
 - PyTorch
-- NumPy (optional)
+- Neural Networks (MLP)
+- Feature engineering
 
 ---
 
-## Key Concepts Learned
+## Key Concepts
 
-- Neural network-based recommendation systems
-- Embedding vs one-hot encoding
+- Recommendation systems
+- Ranking models
+- Embedding / encoding
 - Feature normalization
-- Ranking vs classification
-- Dataset design for machine learning
+- Supervised learning (pointwise ranking)
 
 ---
 
 ## Future Improvements
 
-- Replace pointwise training with pairwise ranking (A vs B)
-- Add user history and sequential behavior
-- Improve embedding representation of topics
-- Introduce deeper architectures (MLP, attention-based models)
-- Build a real-time recommendation API
+- Pairwise ranking (A vs B training)
+- User history / sequential modeling
+- Embedding-based topic representation
+- Attention-based models
+- Real-time recommendation API
+- Logging + evaluation metrics (NDCG, Recall@K)
 
 ---
 
 ## Notes
 
-This is an educational project focused on understanding the fundamentals of recommendation systems. It is not intended for production use.
+This project is an educational implementation of a recommendation system inspired by real-world platforms like YouTube and TikTok, simplified for learning purposes.
