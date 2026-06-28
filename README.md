@@ -7,7 +7,7 @@ It demonstrates how a neural network can learn to rank and recommend videos base
 
 ## Author
 
-Developed by: **[Your Name]**
+Developed by: **Zeteny Sovago**
 
 ---
 
