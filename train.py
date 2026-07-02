@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from data import watch_interactions, videos
+from data import videos, interactions
 from model import WatchTimeModel
 from encoder import topic_to_id, topic_count
 
@@ -22,7 +22,7 @@ optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 for epoch in range(1000):
     total_loss = 0
 
-    for interaction in watch_interactions:
+    for interaction in interactions:
         user_id  = torch.tensor(interaction["user_id"] - 1)
         video_id = torch.tensor(interaction["video_id"] - 1)
 

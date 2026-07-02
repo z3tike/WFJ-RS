@@ -1,20 +1,23 @@
 import torch
-from data import videos, watch_interactions
+from data import videos, interactions
 from encoder import topic_to_id
 from normalize import normalize_views, normalize_likes, normalize_shares
 
-def content_score(video):
-    return (
-        0.4 * normalize_views(video["views"]) +
-        0.4 * normalize_likes(video["likes"]) +
-        0.2 * normalize_shares(video["shares"])
-    )
 
-def cf_recommend(user, model, cf_weight=0.7, content_weight=0.3):
+def content_score(video):
+    score = (
+        0.2 * normalize_views(video["views"]) +
+        0.3 * normalize_likes(video["likes"]) +
+        0.1 * normalize_shares(video["shares"])
+    )
+    return score * 0.3
+
+
+def cf_recommend(user, model, cf_weight=0.9, content_weight=0.1):
 
     already_watched = {
         i["video_id"]
-        for i in watch_interactions
+        for i in interactions
         if i["user_id"] == user["id"]
     }
 

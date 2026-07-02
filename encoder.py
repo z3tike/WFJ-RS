@@ -1,7 +1,8 @@
+from data import generated_videos
+
 TOPICS = {
-    "football": 0,
-    "gaming": 1,
-    "ai": 2
+    topic: idx
+    for idx, topic in enumerate(sorted({video["topic"] for video in generated_videos}))
 }
 
 def topic_to_id(topic):
